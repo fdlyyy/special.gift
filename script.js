@@ -28,7 +28,7 @@ function typewriter() {
 function nextText() {
   clickCount++; // tambah hitungan klik
 
-  if (clickCount >= 3) {
+  if (clickCount >= 7) {
     window.open("Flowers/index.html", "_blank"); // buka di tab baru
     return;
   }
