@@ -1,11 +1,11 @@
 var aText = [
   "Haiii Faisa Fabiola", 
   "Today is the day",
-  "Selamat Ulang Tahun, semoga diumur kamu yang sekarang kamu menjadi pribadi yang lebih baik lagi"
-  "Semua yang kamu impikan semoga tercapai diumur kamu yang sekarang"
-  "Dan ya aku punya something special buat kamu"
-  "Aku harap kamu suka"
-  "Made With Love <3"
+  "Selamat Ulang Tahun, semoga diumur kamu yang sekarang kamu menjadi pribadi yang lebih baik lagi",
+  "Semua yang kamu impikan semoga tercapai diumur kamu yang sekarang",
+  "Dan ya aku punya something special buat kamu",
+  "Aku harap kamu suka",
+  "Made With Love <3",
 ];
 
 var iSpeed = 50;      // kecepatan ketik
