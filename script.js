@@ -1,90 +1,84 @@
 var aText = [
-  "Haiii Faisa Fabiola", 
+  "Haiii Faisa Fabiola",
   "Today is the day",
-  "Selamat Ulang Tahun, semoga diumur kamu yang sekarang kamu menjadi pribadi yang lebih baik lagi",
-  "Semua yang kamu impikan semoga tercapai diumur kamu yang sekarang",
-  "Dan ya aku punya something special buat kamu",
-  "Aku harap kamu suka",
+  "Selamat Ulang Tahun, semoga diumur kamu yang sekarang kamu menjadi pribadi yang lebih baik lagi", // <- tambah koma
+  "Semua yang kamu impikan semoga tercapai diumur kamu yang sekarang", // <- tambah koma
+  "Dan ya aku punya something special buat kamu", // <- tambah koma
+  "Aku harap kamu suka", // <- tambah koma
   "Made With Love <3"
 ];
 
-var iSpeed = 50;      // kecepatan ketik
-var iIndex = 0;       // index array teks
-var iTextPos = 0;     // posisi karakter
-var sContents = '';   // isi sementara
-var iArrLength = aText[0].length; 
-var clickCount = 0;   // hitung klik tombol
+var iSpeed = 50;
+var iIndex = 0;
+var iTextPos = 0;
+var sContents = '';
+var iArrLength = aText[0].length;
+var clickCount = 0;
 
 function typewriter() {
   var destination = document.getElementById("typedtext");
+  if(!destination) return; // safety biar nggak error kalau id nya nggak ada
+
   destination.innerHTML = aText[iIndex].substring(0, iTextPos) + "_";
-  
+
   if (iTextPos++ < iArrLength) {
     setTimeout(typewriter, iSpeed);
+  } else {
+    destination.innerHTML = aText[iIndex]; // hapus "_" pas selesai
   }
 }
 
-// Fungsi untuk ganti teks saat tombol ditekan
 function nextText() {
-  clickCount++; // tambah hitungan klik
+  clickCount++;
 
   if (clickCount >= 7) {
-    window.open("Flowers/index.html", "_blank"); // buka di tab baru
+    window.open("Flowers/index.html", "_blank");
     return;
   }
 
   iIndex++;
   if (iIndex >= aText.length) {
-    iIndex = 0; // balik lagi ke awal kalau sudah habis
+    iIndex = 0;
   }
   iTextPos = 0;
   iArrLength = aText[iIndex].length;
   typewriter();
 }
 
-// Jalankan pertama kali
 typewriter()
 
+// Background Bunga
+const NUM_PETALS = 30;
+const PETAL_CHARS = ['🌸','🌺','🌷','🌼','🌻'];
+const LAYER = document.getElementById('petalLayer');
 
-// Background
+if(LAYER){ // cek dulu biar nggak error kalau id nya nggak ada
+  function rand(min, max){
+    return Math.random()*(max-min)+min;
+  }
 
-const NUM_PETALS = 30;          // jumlah bunga/kelopak
-    const PETAL_CHARS = ['🌸','🌺','🌷','🌼','🌻']; // emoji bunga (ganti kalau mau)
-    const LAYER = document.getElementById('petalLayer');
+  for(let i=0;i<NUM_PETALS;i++){
+    const el = document.createElement('div');
+    el.className = 'petal';
+    el.textContent = PETAL_CHARS[Math.floor(Math.random()*PETAL_CHARS.length)];
 
-    function rand(min, max){
-      return Math.random()*(max-min)+min;
-    }
+    const left = rand(0,100);
+    const size = rand(16,48);
+    const delay = rand(-20, 0); // dibalik biar bener
+    const duration = rand(8, 18);
+    const drift = (Math.random() < 0.5? -1 : 1) * rand(40, 300);
+    const rot = (Math.random() < 0.5? -1 : 1) * rand(180, 1080);
 
-    for(let i=0;i<NUM_PETALS;i++){
-      const el = document.createElement('div');
-      el.className = 'petal';
-      el.textContent = PETAL_CHARS[Math.floor(Math.random()*PETAL_CHARS.length)];
+    el.style.left = left + 'vw';
+    el.style.fontSize = size + 'px';
+    el.style.top = rand(-20, -5) + 'vh';
+    el.style.opacity = rand(0.7, 1);
+    el.style.setProperty('--drift', drift + 'px');
+    el.style.setProperty('--rot', rot + 'deg');
+    el.style.animation = `fall ${duration}s linear infinite`;
+    el.style.animationDelay = delay + 's';
+    el.style.transform = `rotate(${rand(0,360)}deg)`;
 
-      // acak posisi horizontal, ukuran, delay, durasi, drift (ke samping), dan rotasi akhir
-      const left = rand(0,100); // persen
-      const size = rand(16,48); // px font-size
-      const delay = rand(0, -20); // mulai sebelum/ketika load; negatif agar ada yang sudah turun
-      const duration = rand(8, 18); // detik
-      const drift = (Math.random() < 0.5 ? -1 : 1) * rand(40, 300); // drift ke kiri/kanan
-      const rot = (Math.random() < 0.5 ? -1 : 1) * rand(180, 1080); // putaran
-
-      el.style.left = left + 'vw';
-      el.style.fontSize = size + 'px';
-      el.style.top = rand(-20, -5) + 'vh';
-      el.style.opacity = rand(0.7, 1);
-      el.style.setProperty('--drift', drift + 'px');
-      el.style.setProperty('--rot', rot + 'deg');
-
-      // Terapkan animasi dengan variasi durasi & delay
-      el.style.animation = `fall ${duration}s linear infinite`;
-      el.style.animationDelay = delay + 's';
-
-      // sedikit rotasi/scale acak saat jatuh (tambahan)
-      el.style.transform = `rotate(${rand(0,360)}deg)`;
-
-      // Untuk memberi variasi horizontal (sway), gunakan keyframe inline via transition on transform tidak diperlukan;
-      // cukup variasikan --drift & --rot di keyframe fall.
-
-      LAYER.appendChild(el);
-    }
+    LAYER.appendChild(el);
+  }
+}
